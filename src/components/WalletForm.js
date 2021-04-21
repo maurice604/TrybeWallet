@@ -21,7 +21,6 @@ class WalletForm extends React.Component {
     this.state = this.defaultState;
 
     this.handleChange = this.handleChange.bind(this);
-    // this.handleExpense = this.handleExpense.bind(this);
     this.loadEditItem = this.loadEditItem.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -58,7 +57,6 @@ class WalletForm extends React.Component {
     const { expenses } = this.props;
     const { value, currency, method, tag, description } = this.state;
     const nextId = expenses.length;
-    // const exchangeRates = await getCurrencies();
     const expense = { id: nextId,
       value,
       description,
@@ -84,10 +82,29 @@ class WalletForm extends React.Component {
     this.setState(() => (this.defaultState));
   }
 
-  renderCurrencyInput(currency) {
-    const { currencies } = this.props;
+  renderExpenseInput() {
+    const { value } = this.state;
     return (
       <label htmlFor="select-currency">
+        Adicione despesa:
+        <input
+          type="number"
+          name="value"
+          placeholder="Quanto você gastou?"
+          data-testid="value-input"
+          id="select-currency"
+          value={ value }
+          onChange={ this.handleChange }
+        />
+      </label>
+    );
+  }
+
+  renderCurrencyInput() {
+    const { currency } = this.state;
+    const { currencies } = this.props;
+    return (
+      <label htmlFor="currency">
         Escolha a moeda de sua despesa:
         <select
           value={ currency }
@@ -109,7 +126,8 @@ class WalletForm extends React.Component {
     );
   }
 
-  renderMethodInput(method) {
+  renderMethodInput() {
+    const { method } = this.state;
     return (
       <label htmlFor="method-payment">
         Forma de Pagamento:
@@ -128,7 +146,8 @@ class WalletForm extends React.Component {
     );
   }
 
-  renderTagInput(tag) {
+  renderTagInput() {
+    const { tag } = this.state;
     return (
       <label htmlFor="kindOfExpense">
         Tipo de despesa:
@@ -147,7 +166,8 @@ class WalletForm extends React.Component {
     );
   }
 
-  renderDescriptionInput(description) {
+  renderDescriptionInput() {
+    const { description } = this.state;
     return (
       <label htmlFor="descricao-despesa">
         Descreva sua despesa:
@@ -157,23 +177,6 @@ class WalletForm extends React.Component {
           data-testid="description-input"
           id="descricao-despesa"
           value={ description }
-          onChange={ this.handleChange }
-        />
-      </label>
-    );
-  }
-
-  renderExpenseInput(value) {
-    return (
-      <label htmlFor="input-despesa">
-        Adicione despesa:
-        <input
-          type="number"
-          name="value"
-          placeholder="Quanto você gastou?"
-          data-testid="value-input"
-          id="select-currency"
-          value={ value }
           onChange={ this.handleChange }
         />
       </label>
@@ -203,7 +206,6 @@ class WalletForm extends React.Component {
   }
 
   render() {
-    // const { value, description, currency, method, tag } = this.state;
     const { btnStatus, item } = this.props;
     return (
       <form>
@@ -231,7 +233,6 @@ WalletForm.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  // expenses: (value) => dispatch(expenseExchangeRates(value)),
   addExpense: (param) => dispatch(expenseAction(param)),
   editingDispatch: () => dispatch(statusToFalse()),
   deleteExpenseAction: (obj) => dispatch(deleteExpense(obj)),

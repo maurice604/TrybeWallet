@@ -15,13 +15,6 @@ const walletReducer = (state = INITIAL_WALLET, action) => {
   case USER_CURRENCIES:
     return { ...state, currencies: action.payload };
   case ADD_EXPENSE: {
-    /* const newExpense = {
-      id: state.idCount,
-      ...action.payload,
-    };
-    return { ...state,
-      expenses: [...state.expenses, newExpense],
-      idCount: state.idCount + 1 }; */
     return { ...state, expenses: [...state.expenses, action.payload] };
   }
   case DELETE: {

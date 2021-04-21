@@ -9,47 +9,36 @@ class Header extends React.Component {
     apiCurrencies();
   }
 
-  getTotal() {
-    const { expenses } = this.props;
-    return expenses.map(({ currency, value, exchangeRates }) => {
-      const currencyData = exchangeRates[currency];
-      const total = Number(value) * Number(currencyData.ask);
-      return total;
-    })
-      .reduce((acc, expense) => acc + expense, 0);
-  }
-
-  /* getTotal() {
-    const { expenses } = this.props;
-    let sum = expenses.reduce((acc, curr) => {
-      const convertedPrice = curr.value * curr.exchangeRates[curr.currency].ask;
-      acc += convertedPrice;
-      return acc;
-    }, 0);
-    sum = Math.floor(sum * 100) / 100;
-    return sum;
-  } */
-
   render() {
-    const { email } = this.props;
-    // const INITIAL_VALUE = 0;
-    // console.log(this.getTotal());
+    const { email, expenses } = this.props;
+    const total = expenses.reduce(
+      (acc, expense) => (
+        acc + (parseInt(expense.value, 10)
+        * expense.exchangeRates[expense.currency].ask)
+      ), 0,
+    );
+
     return (
-      <div>
-        <p data-testid="email-field">
-          Email:
-          { ' ' }
-          { email }
+      <header>
+        <p>
+          Usuário:
+          {' '}
+          <span data-testid="email-field">
+            {email}
+          </span>
         </p>
-        <p data-testid="total-field">
-          Despesa total:
-          { ' ' }
-          { Math.round(this.getTotal() * 100) / 100 }
+        <p>
+          Despesas: R$
+          <span data-testid="total-field">{total.toFixed(2)}</span>
         </p>
-        <p data-testid="header-currency-field">
-          BRL
+        <p>
+          Moeda de Câmbio:
+          {' '}
+          <span data-testid="header-currency-field">
+            BRL
+          </span>
         </p>
-      </div>
+      </header>
     );
   }
 }

@@ -5,8 +5,8 @@ import { Redirect } from 'react-router-dom';
 import { loginAction } from '../actions';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: '',
